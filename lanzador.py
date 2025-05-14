@@ -24,8 +24,10 @@ def menu():
             if not app.procesos_cargados():
                 print("No hay procesos cargados. Por favor, carga procesos antes de ejecutar un algoritmo.")
             else:
+                print("\nRound Robin es un algoritmo de planificación que utiliza un quantum (unidad de tiempo).")
+                print("Ejemplo: Si el quantum es 4, cada proceso se ejecutará durante un máximo de 4 unidades de tiempo antes de pasar al siguiente.")
                 try:
-                    q = int(input("Introduce el quantum para Round Robin: "))
+                    q = int(input("Introduce el quantum para Round Robin (ejemplo: 4): "))
                     app.ejecutar_round_robin(q)
                 except ValueError:
                     print("Quantum inválido. Debe ser un número entero.")
