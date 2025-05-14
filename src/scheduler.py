@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Tuple
-from proceso import Proceso
+from src.proceso import Proceso  # Cambiar a una importación relativa al módulo raíz
 
 GanttEntry = Tuple[str, int, int]
 
