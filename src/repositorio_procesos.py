@@ -3,32 +3,28 @@ from .proceso import Proceso
 from database.json_database import JSONDatabase
 
 class RepositorioProcesos:
-    def __init__(self, archivo_db: str):
-        self.db = JSONDatabase(archivo_db)
-        self.procesos: Dict[str, Proceso] = {}
-        self.cargar_desde_base_datos()
+    def __init__(self, archivo):
+        self.archivo = archivo
+        self.procesos = []  # Lista para almacenar los procesos en memoria
 
-    def agregar_proceso(self, proceso: Proceso):
-        if proceso.pid in self.procesos:
-            raise ValueError(f"El proceso con PID '{proceso.pid}' ya existe.")
-        self.procesos[proceso.pid] = proceso
-        self.guardar_en_base_datos()
-
-    def eliminar_proceso(self, pid: str):
-        if pid in self.procesos:
-            del self.procesos[pid]
-            self.guardar_en_base_datos()
-
-    def obtener_proceso(self, pid: str) -> Proceso:
-        return self.procesos.get(pid)
+    def agregar_proceso(self, nombre, duracion, prioridad):
+        proceso = {"nombre": nombre, "duracion": duracion, "prioridad": prioridad}
+        self.procesos.append(proceso)  # Agregar a la lista en memoria
+        self.guardar_procesos()  # Guardar en el archivo JSON
 
     def listar_procesos(self):
-        return list(self.procesos.values())
+        self.cargar_procesos()  # Cargar los procesos desde el archivo JSON
+        return self.procesos
 
-    def guardar_en_base_datos(self):
-        datos = {pid: vars(proceso) for pid, proceso in self.procesos.items()}
-        self.db.guardar(datos)
+    def guardar_procesos(self):
+        import json
+        with open(self.archivo, "w") as f:
+            json.dump(self.procesos, f)
 
-    def cargar_desde_base_datos(self):
-        datos = self.db.cargar()
-        self.procesos = {pid: Proceso(**atributos) for pid, atributos in datos.items()}
+    def cargar_procesos(self):
+        import json
+        try:
+            with open(self.archivo, "r") as f:
+                self.procesos = json.load(f)
+        except FileNotFoundError:
+            self.procesos = []

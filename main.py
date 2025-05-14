@@ -5,11 +5,13 @@ from src.metrics import calcular_metricas
 class AplicacionScheduler:
     def __init__(self):
         self.repositorio = RepositorioProcesos("database/procesos.json")  # Archivo JSON para la base de datos
-
+    def procesos_cargados(self):
+        return len(self.repositorio.listar_procesos()) > 0
     def cargar_procesos_demo(self):
         self.repositorio.agregar_proceso("P1", 10, 1)
         self.repositorio.agregar_proceso("P2", 5, 2)
         self.repositorio.agregar_proceso("P3", 8, 3)
+        print("Procesos cargados en el repositorio:", self.repositorio.listar_procesos())  # Mensaje de depuración
 
     def ejecutar_fcfs(self):
         procesos = self.repositorio.listar_procesos()

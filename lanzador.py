@@ -19,6 +19,7 @@ def menu():
             if not app.procesos_cargados():
                 print("No hay procesos cargados. Por favor, carga procesos antes de ejecutar un algoritmo.")
             else:
+                print("Procesos disponibles para FCFS:", app.repositorio.listar_procesos())  # Depuración
                 app.ejecutar_fcfs()
         elif opcion == "3":
             if not app.procesos_cargados():
@@ -28,6 +29,7 @@ def menu():
                 print("Ejemplo: Si el quantum es 4, cada proceso se ejecutará durante un máximo de 4 unidades de tiempo antes de pasar al siguiente.")
                 try:
                     q = int(input("Introduce el quantum para Round Robin (ejemplo: 4): "))
+                    print("Procesos disponibles para Round Robin:", app.repositorio.listar_procesos())  # Depuración
                     app.ejecutar_round_robin(q)
                 except ValueError:
                     print("Quantum inválido. Debe ser un número entero.")
