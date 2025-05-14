@@ -1,6 +1,6 @@
 import json
 import csv
-from proceso import Proceso
+from src.proceso import Proceso
 
 class RepositorioProcesos:
     def __init__(self):
