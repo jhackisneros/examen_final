@@ -1,10 +1,10 @@
-from src.repositorio import RepositorioProcesos
+from src.repositorio_procesos import RepositorioProcesos
 from src.scheduler import FCFSScheduler, RoundRobinScheduler
 from src.metrics import calcular_metricas
 
 class AplicacionScheduler:
     def __init__(self):
-        self.repositorio = RepositorioProcesos()
+        self.repositorio = RepositorioProcesos("database/procesos.json")  # Archivo JSON para la base de datos
 
     def cargar_procesos_demo(self):
         self.repositorio.agregar_proceso("P1", 10, 1)

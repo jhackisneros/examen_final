@@ -1,6 +1,6 @@
 from typing import Dict
 from .proceso import Proceso
-from .database import JSONDatabase
+from database.json_database import JSONDatabase
 
 class RepositorioProcesos:
     def __init__(self, archivo_db: str):
