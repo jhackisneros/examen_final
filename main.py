@@ -1,34 +1,43 @@
-from src.proceso import Proceso
-from src.scheduler import FCFSScheduler, RoundRobinScheduler
 from src.repositorio import RepositorioProcesos
+from src.scheduler import FCFSScheduler, RoundRobinScheduler
 from src.metrics import calcular_metricas
 
-class Aplicacion:
+class AplicacionScheduler:
     def __init__(self):
         self.repositorio = RepositorioProcesos()
 
-    def registrar_procesos(self):
-        self.repositorio.agregar_proceso(Proceso("P1", 10, 1))
-        self.repositorio.agregar_proceso(Proceso("P2", 5, 2))
-        self.repositorio.agregar_proceso(Proceso("P3", 8, 3))
-
-    def mostrar_procesos(self):
-        print("Procesos registrados:")
-        for proceso in self.repositorio.listar_procesos():
-            print(proceso)
+    def cargar_procesos_demo(self):
+        self.repositorio.agregar_proceso("P1", 10, 1)
+        self.repositorio.agregar_proceso("P2", 5, 2)
+        self.repositorio.agregar_proceso("P3", 8, 3)
 
     def ejecutar_fcfs(self):
+        procesos = self.repositorio.listar_procesos()
+        print("\nProcesos registrados:")
+        for p in procesos:
+            print(p)
+
         scheduler = FCFSScheduler()
-        gantt = scheduler.planificar(self.repositorio.listar_procesos())
+        gantt = scheduler.planificar(procesos)
+        metricas = calcular_metricas(procesos, gantt)
+
         print("\nDiagrama de Gantt (FCFS):", gantt)
-        metricas = calcular_metricas(self.repositorio.listar_procesos(), gantt)
-        print("\nMétricas:", metricas)
+        print("Métricas:", metricas)
+
+    def ejecutar_round_robin(self, quantum=4):
+        procesos = self.repositorio.listar_procesos()
+        scheduler = RoundRobinScheduler(quantum=quantum)
+        gantt = scheduler.planificar(procesos)
+        metricas = calcular_metricas(procesos, gantt)
+
+        print(f"\nDiagrama de Gantt (Round Robin, quantum={quantum}):", gantt)
+        print("Métricas:", metricas)
 
     def ejecutar(self):
-        self.registrar_procesos()
-        self.mostrar_procesos()
+        self.cargar_procesos_demo()
         self.ejecutar_fcfs()
+        self.ejecutar_round_robin(quantum=4)
 
 if __name__ == "__main__":
-    app = Aplicacion()
+    app = AplicacionScheduler()
     app.ejecutar()
