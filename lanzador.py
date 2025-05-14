@@ -16,13 +16,19 @@ def menu():
             app.cargar_procesos_demo()
             print("Procesos cargados.")
         elif opcion == "2":
-            app.ejecutar_fcfs()
+            if not app.procesos_cargados():
+                print("No hay procesos cargados. Por favor, carga procesos antes de ejecutar un algoritmo.")
+            else:
+                app.ejecutar_fcfs()
         elif opcion == "3":
-            try:
-                q = int(input("Introduce el quantum para Round Robin: "))
-                app.ejecutar_round_robin(q)
-            except ValueError:
-                print("Quantum inválido. Debe ser un número entero.")
+            if not app.procesos_cargados():
+                print("No hay procesos cargados. Por favor, carga procesos antes de ejecutar un algoritmo.")
+            else:
+                try:
+                    q = int(input("Introduce el quantum para Round Robin: "))
+                    app.ejecutar_round_robin(q)
+                except ValueError:
+                    print("Quantum inválido. Debe ser un número entero.")
         elif opcion == "4":
             print("Saliendo...")
             break

@@ -13,6 +13,10 @@ class AplicacionScheduler:
 
     def ejecutar_fcfs(self):
         procesos = self.repositorio.listar_procesos()
+        if not procesos:  # Validar si no hay procesos
+            print("No hay procesos registrados para ejecutar FCFS.")
+            return
+
         print("\nProcesos registrados:")
         for p in procesos:
             print(p)
@@ -26,6 +30,10 @@ class AplicacionScheduler:
 
     def ejecutar_round_robin(self, quantum=4):
         procesos = self.repositorio.listar_procesos()
+        if not procesos:  # Validar si no hay procesos
+            print("No hay procesos registrados para ejecutar Round Robin.")
+            return
+
         scheduler = RoundRobinScheduler(quantum=quantum)
         gantt = scheduler.planificar(procesos)
         metricas = calcular_metricas(procesos, gantt)

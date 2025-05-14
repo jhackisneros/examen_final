@@ -10,6 +10,13 @@ class Scheduler(ABC):
         pass
 
     def calcular_metricas(self, gantt: List[GanttEntry], procesos: List[Proceso]) -> dict:
+        if not procesos:  # Validar si la lista de procesos está vacía
+            return {
+                "tiempo_respuesta_medio": 0,
+                "tiempo_espera_medio": 0,
+                "tiempo_retorno_medio": 0,
+            }
+
         tiempos_respuesta = []
         tiempos_espera = []
         tiempos_retorno = []
